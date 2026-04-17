@@ -74,5 +74,3 @@ Sou um desenvolvedor focado em criar soluções escaláveis e ferramentas que ot
 ### 📝 Licença
 
 Este projeto está sob a licença MIT. Sinta-se à vontade para usar, modificar e distribuir.
-
------# dash_generator
