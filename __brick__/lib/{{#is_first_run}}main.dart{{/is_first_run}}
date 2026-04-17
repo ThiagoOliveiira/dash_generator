@@ -1,0 +1,55 @@
+import 'package:flutter/material.dart';
+import 'core/di/di.dart';
+import 'core/navigation/navigation.dart';
+import 'ds/ds.dart';
+
+void main() async {
+  // 1. Garante a inicialização dos Widgets do Flutter
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // 2. Inicializa a Injeção de Dependências (Manual/GetIt)
+  await setupInjections();
+
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    // 1. Criamos as duas instâncias do nosso DS
+    final dsLight = DSData.light();
+    final dsDark = DSData.dark();
+
+    return MaterialApp.router(
+      title: 'Seu Projeto Profissional',
+      debugShowCheckedModeBanner: false,
+      
+      // 2. DIZ AO FLUTTER PARA SEGUIR O SISTEMA
+      themeMode: ThemeMode.system, 
+
+      routerConfig: appRouter,
+
+      // 3. CONFIGURAÇÃO DO TEMA CLARO
+      theme: ThemeData(
+        useMaterial3: true,
+        brightness: Brightness.light,
+        scaffoldBackgroundColor: dsLight.colors.background,
+        extensions: [
+          DSThemeExtension(ds: dsLight),
+        ],
+      ),
+
+      // 4. CONFIGURAÇÃO DO TEMA ESCURO
+      darkTheme: ThemeData(
+        useMaterial3: true,
+        brightness: Brightness.dark,
+        scaffoldBackgroundColor: dsDark.colors.background,
+        extensions: [
+          DSThemeExtension(ds: dsDark),
+        ],
+      ),
+    );
+  }
+}

@@ -1,0 +1,21 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:equatable/equatable.dart';
+
+{{#is_full_clean}}import '../../domain/domain.dart';{{/is_full_clean}}
+
+part '{{feature_name.snakeCase()}}_state.dart';
+
+class {{feature_name.pascalCase()}}Cubit extends Cubit<{{feature_name.pascalCase()}}State> {
+  {{#is_full_clean}}
+  final {{feature_name.pascalCase()}}UseCase _useCase;
+  {{/is_full_clean}}
+
+  {{feature_name.pascalCase()}}Cubit(
+    {{#is_full_clean}}this._useCase{{/is_full_clean}}
+  ) : super({{feature_name.pascalCase()}}Initial());
+
+  void loadData() {
+    emit({{feature_name.pascalCase()}}Loading());
+    // Lógica aqui...
+  }
+}

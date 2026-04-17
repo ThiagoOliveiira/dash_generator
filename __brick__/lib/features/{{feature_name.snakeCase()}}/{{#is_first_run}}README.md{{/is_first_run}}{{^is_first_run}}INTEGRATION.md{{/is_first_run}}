@@ -1,0 +1,92 @@
+# 🧩 Integração: {{feature_name.pascalCase()}}
+**Arquitetura:** `{{feature_type}}` | **Estado:** `{{state_management}}`
+
+Siga os passos abaixo para conectar a nova feature ao projeto.
+
+---
+
+## 1. 💉 Injeção de Dependência
+**Arquivo:** `lib/core/di/di.dart`
+
+### 1.1 Import
+```dart
+import '../../features/{{feature_name.snakeCase()}}/{{feature_name.snakeCase()}}.dart';
+```
+
+### 1.2 Chamada de Registro
+Adicione dentro da função `_registerFeatures()`:
+```dart
+    _register{{feature_name.pascalCase()}}();
+```
+
+### 1.3 Bloco de Implementação
+Cole ao final do arquivo:
+
+```dart
+void _register{{feature_name.pascalCase()}}() {
+{{#is_full_clean}}
+  // --- MODO FULL CLEAN ---
+  getIt.registerLazySingleton<{{feature_name.pascalCase()}}DataSource>(
+    () => {{feature_name.pascalCase()}}DataSourceImpl(),
+  );
+  getIt.registerLazySingleton<I{{feature_name.pascalCase()}}Repository>(
+    () => {{feature_name.pascalCase()}}RepositoryImpl(getIt()),
+  );
+  getIt.registerLazySingleton(() => {{feature_name.pascalCase()}}UseCase(getIt()));
+
+  // Presentation ({{state_management}})
+
+  {{#use_cubit}}
+  getIt.registerFactory(() => {{feature_name.pascalCase()}}Cubit(
+    getIt<{{feature_name.pascalCase()}}UseCase>(),
+  ));
+  {{/use_cubit}}
+
+  {{#use_bloc}}
+  getIt.registerFactory(() => {{feature_name.pascalCase()}}Bloc(
+    getIt<{{feature_name.pascalCase()}}UseCase>(),
+  ));
+  {{/use_bloc}}
+  
+{{/is_full_clean}}
+{{#is_ui_only}}
+  // --- MODO UI ONLY ---
+  getIt.registerFactory(() => {{feature_name.pascalCase()}}{{#use_bloc}}Bloc{{/use_bloc}}{{#use_cubit}}Cubit{{/use_cubit}}());
+{{/is_ui_only}}
+}
+```
+
+---
+
+## 🛣️ 2. Rota de Navegação
+**Arquivo:** `lib/core/navigation/app_router.dart`
+
+### 2.1 Import
+```dart
+import '../../features/{{feature_name.snakeCase()}}/{{feature_name.snakeCase()}}.dart';
+```
+
+### 2.2 Rota
+Adicione dentro do array `routes: [...]`:
+```dart
+    {{feature_name.pascalCase()}}Routes.route,
+```
+
+---
+
+## 💡 Atalhos de Uso
+
+### Ir para esta tela
+```dart
+context.pushNamed({{feature_name.pascalCase()}}Page.routeName);
+```
+
+### Voltar
+```dart
+context.pop();
+```
+
+---
+> **Checklist de Limpeza:** Após colar os trechos acima, este arquivo pode ser deletado.
+
+---
