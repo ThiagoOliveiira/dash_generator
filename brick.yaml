@@ -1,6 +1,7 @@
 name: dash_generator
 description: "Gerador de Clean Architecture com Design System"
 version: 0.1.0+1
+repository: https://github.com/ThiagoOliveiira/dash_generator
 
 # Removemos os vars daqui para o pre_gen controlar a ordem e exibir o banner antes.
 vars:
